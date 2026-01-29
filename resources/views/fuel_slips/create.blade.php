@@ -17,7 +17,7 @@
     </div>
 
     <nav class="dashboard-nav">
-        <a href="{{ route('boardmember.dashboard') }}" class="nav-logo"><img src="{{ asset('images/splogoo.png') }}" alt="Logo"></a>
+        
         <a href="{{ route('boardmember.dashboard') }}">Dashboard</a>
         <a href="{{ route('fuel-slips.index') }}">Fuel Slips</a>
         <a href="{{ route('maintenances.index') }}">Maintenances</a>

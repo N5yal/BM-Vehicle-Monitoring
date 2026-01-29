@@ -2,30 +2,52 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+@if(auth()->user()->role === 'admin')
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endif
 <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 
-<div class="admin-page">
-    <div class="dashboard-header">
-        <div class="dashboard-title">
-            <img src="{{ asset('images/splogoo.png') }}" alt="Logo" style="height:64px;">
-            <h1>Admin Dashboard</h1>
+<div class="dashboard-page">
+    @if(auth()->user()->role === 'admin')
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <img src="{{ asset('images/splogoo.png') }}" alt="Logo">
+                <h1>Admin Dashboard</h1>
+            </div>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
         </div>
-        <form action="{{ route('logout') }}" method="POST" class="logout-form">
-            @csrf
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
+    @else
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <img src="{{ asset('images/splogoo.png') }}" alt="Logo">
+                <h1>Sangguniang Panlalawigan</h1>
+            </div>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    @endif
 
-    <nav class="dashboard-nav">
-        <a href="{{ route('admin.dashboard') }}" class="nav-logo"><img src="{{ asset('images/splogoo.png') }}" alt="Logo"></a>
-        <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-        <a href="{{ route('vehicles.index') }}">Vehicles</a>
-        <a href="{{ route('fuel-slips.index') }}">Fuel Slips</a>
-        <a href="{{ route('maintenances.index') }}">Maintenances</a>
-    </nav>
+    <div class="dashboard-body">
+        <nav class="dashboard-nav">
+            @if(auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a href="{{ route('vehicles.index') }}">Vehicles</a>
+                <a href="{{ route('fuel-slips.index') }}">Fuel Slips</a>
+                <a href="{{ route('maintenances.index') }}">Maintenances</a>
+            @else
+                <a href="{{ route('boardmember.dashboard') }}">Dashboard</a>
+                <a href="{{ route('fuel-slips.index') }}">Fuel Slips</a>
+                <a href="{{ route('maintenances.index') }}">Maintenances</a>
+            @endif
+        </nav>
 
-    <div class="form-card">
+        <div class="dashboard-container">
+            <div class="form-card">
         <h2>Edit Vehicle</h2>
 
         @if ($errors->any())
@@ -51,6 +73,8 @@
 
             <button type="submit">Update Vehicle</button>
         </form>
-    </div>
-</div>
+            </div>
+        </div> {{-- dashboard-container --}}
+    </div> {{-- dashboard-body --}}
+</div> {{-- dashboard-page --}}
 @endsection
